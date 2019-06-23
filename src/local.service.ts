@@ -1,28 +1,35 @@
 import { Todo } from './models/todo';
 
 class LocalService {
-  get(): Array<Todo> {
-    let todos = JSON.parse(localStorage.getItem('todos'));
-    return todos ? todos : [];
+  get(key: string): Array<Todo> | undefined {
+    let result: string | null = localStorage.getItem(key);
+    let todos: Array<Todo>;
+    if (result !== null) {
+      todos = JSON.parse(result);
+      return todos ? todos : [];
+    }
+    else {
+      return undefined;
+    }
   }
 
-  add(title: string) {
-    let todos = this.get();
-    if (!todos) todos = [];
-    let maxId = Math.max(...todos.map(t => t.id));
-    todos.push({ id: maxId > 0 ? maxId + 1 : 1, title: title });
-    this.save(todos);
+  save(key: string, todos: Array<Todo>) {
+    localStorage.setItem(key, JSON.stringify(todos));
   }
 
-  remove(id: number) {
-    let todos = this.get();
-    let indexToDelete = todos.findIndex(t => t.id == id);
-    todos.splice(indexToDelete, 1);
-    this.save(todos);
+  load(key: string): object | undefined {
+    let result = localStorage.getItem(key);
+
+    if (result !== null) {
+      return JSON.parse(result);
+    }
+    else {
+      return undefined;
+    }
   }
 
-  save(todos: Array<Todo>) {
-    localStorage.setItem('todos', JSON.stringify(todos));
+  remove(key: string) {
+    localStorage.removeItem(key);
   }
 }
 
