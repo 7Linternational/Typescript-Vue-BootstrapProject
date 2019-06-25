@@ -1,13 +1,17 @@
 <template>
- <section class="container">
-	<div>
-    	<h2>Hello World #1</h2>
-    </div>
+  <transition v-on:enter="enter" v-on:leave="leave" v-bind:css="false" appear>
+    <section class="inner-container">
+      <div class="row">
+        <div>
+          <h2>Hello World #1</h2>
+        </div>
 
-    <div class="col-12">
-        <div class="btn btn-primary" v-on:click="goToAdd">Go to next!</div>
-    </div>
-	</section>
+        <div class="col-12">
+          <div class="btn btn-primary" v-on:click="goToAdd">Go to next!</div>
+        </div>
+      </div>
+    </section>
+  </transition>
 </template>
 
 <script lang="ts">
@@ -38,6 +42,47 @@ export default class View1 extends Vue {
       
     });
   }
+
+  private enter(el: any, done: any) {
+    TweenMax.fromTo(
+      el,
+      1,
+      {
+        
+        autoAlpha: 0,
+        x:100,
+        transformOrigin: "50% 50%"
+      },
+      {
+        delay: 0.6,
+        autoAlpha: 1,
+        x: 0,
+        transformOrigin: "50% 50%",
+        ease: Power4.easeOut,
+        onComplete: done
+      }
+    );
+  }
+
+  private leave(el: any, done: any) {
+    TweenMax.fromTo(
+      el,
+      0.5,
+      {
+        
+        autoAlpha: 1,
+        transformOrigin: "50% 50%"
+      },
+      {
+        autoAlpha: 0,
+        x: -100,
+        position: "absolute",
+	      top: 0,
+        ease: Power4.easeOut,
+        onComplete: done,
+        transformOrigin: "50% 50%"
+      }
+    );
 
   
   private goToAdd() {
