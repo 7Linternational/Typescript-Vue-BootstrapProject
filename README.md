@@ -18,5 +18,8 @@ This project uses:
 - Vuejs for rendering templates and UI
 - Bootstrap for grid and UX components. 
 - And Parcel for deployment and bundling.
+- GSAP for views and other transitions/animations
+
+(Transitions are on a vue component level and applied when the view enter/leaves)
 
 Routing for single page projects is handled via official VueRouter (https://router.vuejs.org/)
